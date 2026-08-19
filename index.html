@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<HTML>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Sekuya&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> Sonar dinámico </title>
+<h class="head"> Sonar </h>
+<h class="dinámico"> dinámico </h>
+<style>
+#echo1 {
+  font-size: 100px;
+  font-optical-sizing: auto;
+  color: #111;
+  padding-top: 70px;
+  border: 20px;
+  float: left;
+  margin-left: 600px;
+  text-shadow: 20px;
+  font-family: sans-serif;
+}
+
+.head {
+color: #ffffff; font-family: sans-serif; font-optical-sizing: auto; font-weight: 120px; font-stretch: 200%; font-size: 200px; font-color: black; text-align:center; padding-top: 60px;
+}
+
+.dinámico {
+    font-style: Italic;
+    font-size: 200px;
+    color: #fff;
+}
+
+#image {
+         width: 400px;
+         padding-top: 120px;
+         margin-right: 720px;
+}
+
+#status {
+            font-size: 100px;
+            font-family: serif;
+            color: #ffffff;
+            text-align: center;
+}
+
+ body { background: #0055ff; text-align: center; }
+button { background-color: #4285F4; border-radius: 90px; border-width: 10px; border-style: solid; border-color: yellow; font-size: 100px; text-align: center; color: #eee; padding: 14px 28px; }
+img { padding-top: 200px; margin-right: 400px; float: right; }
+
+.sekuya-regular {
+  font-family: "Sekuya", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+</style>
+<button id="startbtn">Iniciar sonar</button>
+<div id="status">standby</div>
+<img id="image" src="https://pbs.twimg.com/media/HP9bGtOXcAAoLyX?format=png&name=small">
+
+<script>
+const startbutton = document.getElementById("startbtn")
+const statusEl = document.getElementById("status")
+let audioCtx, micStream, analyser;
+
+startbutton.addEventListener("click", async () => {
+  audioCtx = new AudioContext();
+                micStream = await navigator.mediaDevices.getUserMedia({
+                audio: { 
+                          echoCancellation: false,
+                          noiseSuppression: false,
+                          autoGainControl: false,
+         }
+});
+
+   statusEl.textContent = "mic connected";
+
+const osc = audioCtx.createOscillator();
+osc.type = "sine";
+osc.frequency.value = 19000;
+
+const gain = audioCtx.createGain();
+gain.gain.value = 0.3;
+
+osc.connect(gain).connect(audioCtx.destination);
+osc.start();
+
+statusEl.textContent = "transmiting";
+
+const micSource = audioCtx.createMediaStreamSource(micStream);
+analyser = audioCtx.createAnalyser();
+analyser.fftSize = 8192;
+analyser.smoothingTimeConstant = 0.5;
+micSource.connect(analyser);
+
+statusEl.textContent = "transmiting + listening";
+
+function getCarrierEnergy() {
+  const data = new Float32Array(analyser.frequencyBinCount);
+  analyser.getFloatFrequencyData(data);
+
+  const binWidth = audioCtx.sampleRate / analyser.fftSize;
+  const carrierIdx = Math.round(19000 / binWidth);
+
+let sum = 0, count = 0;
+for (let i =  carrierIdx - 3; i <= carrierIdx + 3; i++) {
+    sum += data[i]
+    count++;
+  }
+return sum / count;
+}
+
+let baseline = null;
+let running = false;
+
+function loop() {
+   if (!running) return;
+   requestAnimationFrame(loop);
+
+   const energy = getCarrierEnergy();
+
+   if (baseline === null) {
+      baseline = energy;
+      return;
+}
+
+baseline += 0.01 * (energy - baseline);
+
+const deviation = Math.abs(energy - baseline);
+const motionDetected = deviation > 2.5;
+
+statusEl.textContent = motionDetected ? "MOTION DETECTED" : "scanning";
+statusEl.style.color = motionDetected ? "orange" : "#5eead4";
+}
+
+running = true;
+loop();
+});
+</script>
+</HTML>
