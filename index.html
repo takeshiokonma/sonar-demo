@@ -104,7 +104,9 @@ function getCarrierEnergy() {
 
 let sum = 0, count = 0;
 for (let i =  carrierIdx - 3; i <= carrierIdx + 3; i++) {
-    sum += data[i]
+    let v = data[i]
+    if(!Number.isFinite(v)) v = -100;
+    sum += v;
     count++;
   }
 return sum / count;
