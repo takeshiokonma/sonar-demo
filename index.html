@@ -129,7 +129,7 @@ baseline += 0.01 * (energy - baseline);
 const deviation = Math.abs(energy - baseline);
 const motionDetected = deviation > 2.5;
 
-statusEl.textContent = motionDetected ? "MOTION DETECTED" : "scanning";
+statusEl.textContent = motionDetected ? "MOTION DETECTED" : "scanning (dev:" + deviation.toFixed(2) + ")";
 statusEl.style.color = motionDetected ? "orange" : "#5eead4";
 }
 
