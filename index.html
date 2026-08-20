@@ -90,7 +90,7 @@ statusEl.textContent = "transmiting";
 const micSource = audioCtx.createMediaStreamSource(micStream);
 analyser = audioCtx.createAnalyser();
 analyser.fftSize = 8192;
-analyser.smoothingTimeConstant = 0.5;
+analyser.smoothingTimeConstant = 0.86;
 micSource.connect(analyser);
 
 statusEl.textContent = "transmiting + listening";
@@ -129,7 +129,7 @@ function loop() {
 baseline += 0.01 * (energy - baseline);
 
 const deviation = Math.abs(energy - baseline);
-const motionDetected = deviation > 2.5;
+const motionDetected = deviation > 6;
 
 statusEl.textContent = motionDetected ? "MOTION DETECTED" : "scanning (dev:" + deviation.toFixed(2) + ")";
 statusEl.style.color = motionDetected ? "orange" : "#5eead4";
