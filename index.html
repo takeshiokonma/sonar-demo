@@ -44,6 +44,14 @@ color: #ffffff; font-family: sans-serif; font-optical-sizing: auto; font-weight:
             text-align: center;
 }
 
+#radar {
+         display: block;
+         margin: 30px auto;
+         background: pink;
+         border-radius: 50%;
+         border: 3px solid #5eead4;
+}
+
  body { background: #0055ff; text-align: center; }
 button { background-color: #4285F4; border-radius: 90px; border-width: 10px; border-style: solid; border-color: yellow; font-size: 100px; text-align: center; color: #eee; padding: 14px 28px; }
 img { padding-top: 200px; margin-right: 400px; float: right; }
@@ -56,6 +64,7 @@ img { padding-top: 200px; margin-right: 400px; float: right; }
 </style>
 <button id="startbtn">Iniciar sonar</button>
 <div id="status">standby</div>
+<canvas id="radar" width="300px" height="300px"></canvas>
 <img id="image" src="https://pbs.twimg.com/media/HP9bGtOXcAAoLyX?format=png&name=small">
 
 <script>
