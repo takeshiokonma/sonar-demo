@@ -73,8 +73,6 @@ button { background-color: #4285F4; border-radius: 90px; border-width: 10px; bor
 const startbutton = document.getElementById("startbtn")
 const statusEl = document.getElementById("status")
 const radarCanvas = documento.getElementById("radar")
-const rctx = radarCanvas.getContext("2d")
-let sweepAngle = 0
 let audioCtx, micStream, analyser;
 
 startbutton.addEventListener("click", async () => {
@@ -151,6 +149,33 @@ statusEl.style.color = motionDetected ? "orange" : "#5eead4";
 
 running = true;
 loop();
+const rctx = radarCanvas.getContext("2d")
+let sweepAngle = 0
+let pulses = [];
+
+function drawRadar(motionDetected);
+   const w = radarCanvas.width, y = radarCanvas.height;
+   const cx = w/2, cy = w/2, R = w/2 - 10
+
+   rctx.clearRect(0, 0, w, h)
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 </HTML>
