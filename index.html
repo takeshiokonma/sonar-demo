@@ -145,14 +145,15 @@ const motionDetected = deviation > 4.5;
 
 statusEl.textContent = motionDetected ? "MOTION DETECTED" : "scanning (dev:" + deviation.toFixed(2) + ")";
 statusEl.style.color = motionDetected ? "orange" : "#5eead4";
-}
 
 drawRadar(motionDetected);
+}
+
 const rctx = radarCanvas.getContext("2d")
 let sweepAngle = 0
 let pulses = [];
 
-function drawRadar(motionDetected); {
+function drawRadar(motionDetected) {
    const w = radarCanvas.width, h = radarCanvas.height;
    const cx = w/2, cy = h/2, R = w/2 - 10
 
