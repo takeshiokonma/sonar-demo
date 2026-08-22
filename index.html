@@ -157,7 +157,33 @@ function drawRadar(motionDetected);
    const w = radarCanvas.width, y = radarCanvas.height;
    const cx = w/2, cy = w/2, R = w/2 - 10
 
-   rctx.clearRect(0, 0, w, h)
+   rctx.clearRect(0, 0, w, h);
+
+rctx.strokeStyle = "rgba(94,234,212,0.2)";
+ for (let i = 1; i <= 3; i++) {
+     rctx.beginPath();
+     rctx.arc(cx, cy,R*i/3, 0, Math.PI*2);
+     rctx.stroke();
+}
+
+sweepAngle += 0.05;
+rctx.beginPath();
+rctx.moveTo(cx, cy);
+rctx.lineTo(cx + R*Math.cos(sweepAngle), cy + R*Math.sin(sweepAngle));
+rctx.strokeStyle = #5eead4";
+rctx.lineWidth = 2;
+rctx.stroke();
+
+if (motionDetected) pulses.push({ r: 0 });
+
+pulses.forEach(p => p.r += 4);
+pulses = pulses.filter(p => p.r < R);
+pulses.forEach(p => {
+        rctx.beginPath();
+        rctx.arc(cx, cy, p.r, 0, Math.PI*2)
+        rctx.strokeStyle = "rgba(255,154,77,${}
+}
+
 
 });
 
