@@ -141,7 +141,7 @@ function loop() {
 baseline += 0.01 * (energy - baseline);
 
 const deviation = Math.abs(energy - baseline);
-const motionDetected = deviation > 3.8;
+const motionDetected = deviation > 4.5;
 
 statusEl.textContent = motionDetected ? "MOTION DETECTED" : "scanning (dev:" + deviation.toFixed(2) + ")";
 statusEl.style.color = motionDetected ? "orange" : "#5eead4";
