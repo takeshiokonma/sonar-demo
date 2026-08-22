@@ -72,6 +72,9 @@ button { background-color: #4285F4; border-radius: 90px; border-width: 10px; bor
 <script>
 const startbutton = document.getElementById("startbtn")
 const statusEl = document.getElementById("status")
+const radarCanvas = documento.getElementById("radar")
+const rctx = radarCanvas.getContext("2d")
+let sweepAngle = 0
 let audioCtx, micStream, analyser;
 
 startbutton.addEventListener("click", async () => {
