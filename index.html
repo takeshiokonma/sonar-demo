@@ -181,27 +181,13 @@ pulses = pulses.filter(p => p.r < R);
 pulses.forEach(p => {
         rctx.beginPath();
         rctx.arc(cx, cy, p.r, 0, Math.PI*2)
-        rctx.strokeStyle = "rgba(255,154,77,${}
+        rctx.strokeStyle = "rgba(255,154,77,${1 - p.r/R})";
+        rctx.lineWidth = 3;
+        rctx.stroke();
+});
 }
 
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
 </HTML>
