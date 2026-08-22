@@ -72,7 +72,7 @@ button { background-color: #4285F4; border-radius: 90px; border-width: 10px; bor
 <script>
 const startbutton = document.getElementById("startbtn")
 const statusEl = document.getElementById("status")
-const radarCanvas = documento.getElementById("radar")
+const radarCanvas = document.getElementById("radar")
 let audioCtx, micStream, analyser;
 
 startbutton.addEventListener("click", async () => {
@@ -147,15 +147,13 @@ statusEl.textContent = motionDetected ? "MOTION DETECTED" : "scanning (dev:" + d
 statusEl.style.color = motionDetected ? "orange" : "#5eead4";
 }
 
-running = true;
-loop();
 const rctx = radarCanvas.getContext("2d")
 let sweepAngle = 0
 let pulses = [];
 
-function drawRadar(motionDetected);
-   const w = radarCanvas.width, y = radarCanvas.height;
-   const cx = w/2, cy = w/2, R = w/2 - 10
+function drawRadar(motionDetected) {
+   const w = radarCanvas.width, h = radarCanvas.height;
+   const cx = w/2, cy = h/2, R = w/2 - 10
 
    rctx.clearRect(0, 0, w, h);
 
@@ -170,7 +168,7 @@ sweepAngle += 0.05;
 rctx.beginPath();
 rctx.moveTo(cx, cy);
 rctx.lineTo(cx + R*Math.cos(sweepAngle), cy + R*Math.sin(sweepAngle));
-rctx.strokeStyle = #5eead4";
+rctx.strokeStyle = "#5eead4";
 rctx.lineWidth = 2;
 rctx.stroke();
 
@@ -181,13 +179,14 @@ pulses = pulses.filter(p => p.r < R);
 pulses.forEach(p => {
         rctx.beginPath();
         rctx.arc(cx, cy, p.r, 0, Math.PI*2)
-        rctx.strokeStyle = "rgba(255,154,77,${1 - p.r/R})";
+        rctx.strokeStyle = `rgba(255,154,77,${1 - p.r/R})`;
         rctx.lineWidth = 3;
         rctx.stroke();
 });
 }
-
-
 });
+
+running = true;
+loop();
 </script>
 </HTML>
